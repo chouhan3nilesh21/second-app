@@ -17,6 +17,7 @@ import ArrowDropDownOutlinedIcon from '@material-ui/icons/ArrowDropDownOutlined'
 import ApproveAuth from './ApproveAuth';
 import RejectDialog from './RejectDialog';
 import DeleteConfirm from './DeleteConfirm';
+import Message from './Message';
 
 const theme = createTheme({
     palette:{
@@ -130,13 +131,57 @@ export default function ManageTransactionsActions(prop) {
     const handleDelClose = () => {
         setDelOpen(false);
     };
+    // ---------------Handle-Message-----------
+    const [msgState, setMsgState] = React.useState({
+        msgOpen:false,
+        severity:"info",
+        message: ""
+    });
 
+    const handleMsgClickOpen = (severity,message) => {
+
+        setMsgState({
+            msgOpen:true,
+        severity:severity,
+        message:message 
+        })
+        // setAnchorEl(null);
+        
+
+    };
+
+    const handleMsgClose = () => {
+        setMsgState({
+            msgOpen:false,
+            severity:"info",
+            message: ""
+        })
+    };
+
+    // const severity = "warning";
     return (
         <ThemeProvider theme={theme}>
             <div>
-                <ApproveAuth open={authOpen} handleClose={handleAuthClose} />
-                <RejectDialog open={rejOpen} handleClose={handleRejClose} />
-                <DeleteConfirm open={delOpen} handleClose={handleDelClose} />
+                <ApproveAuth open={authOpen} handleClose={() => {
+                    handleAuthClose();
+                    handleMsgClickOpen("success", "Transaction approval complete");
+                    // return (
+                        // <Message open ={msgOpen} handleClose ={handleMsgClose} severity ={severity} message ={"auth success"}/>
+                    // )
+                } }/>
+                <RejectDialog open={rejOpen} handleClose={() => {
+                    handleRejClose();
+                    handleMsgClickOpen("warning","transaction Rejected");
+                    // <Message open ={msgOpen} handleClose ={handleMsgClose} severity ={severity} message ={"Rejected"}/>
+
+                } }/>
+                <DeleteConfirm open={delOpen} handleClose={() => {
+                    handleDelClose();
+                    handleMsgClickOpen("error", "Transaction Deleted");
+
+                } }/>
+                {msgState.msgOpen?<Message open ={msgState.msgOpen} handleClose ={handleMsgClose} severity ={msgState.severity} message ={msgState.message}/> :null}
+                
 
                 <Button
                     aria-controls="customized-menu"
@@ -155,6 +200,13 @@ export default function ManageTransactionsActions(prop) {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
+
+                    {/* <StyledMenuItem onClick={handleMsgClickOpen} >
+                        <ListItemIcon>
+                            <VisibilityOutlinedIcon fontSize="large" />
+                        </ListItemIcon>
+                        <ListItemText primary="Msg" />
+                    </StyledMenuItem> */}
 
                     <StyledMenuItem onClick={handleReview} >
                         <ListItemIcon>

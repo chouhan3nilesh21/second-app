@@ -72,7 +72,7 @@ export default function ManageTransactions() {
                 rows={transactions}
                 // rowHeight = {100}
                 columns={columns}
-                // pageSize={10}
+                pageSize={10}
                 columnBuffer={2}
                 checkboxSelection
                 components={{
