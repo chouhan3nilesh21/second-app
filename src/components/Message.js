@@ -28,7 +28,7 @@ export default function Message(props) {
       {/* <Button variant="outlined" onClick={handleClick}>
         Open success snackbar
       </Button> */}
-      <Snackbar open={open} autoHideDuration={1500} onClose={handleClose}>
+      <Snackbar open={open} autoHideDuration={100} onClose={handleClose}>
         <Alert onClose={handleClose} severity={severity}>
           {message}
         </Alert>
