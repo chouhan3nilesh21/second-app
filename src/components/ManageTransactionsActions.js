@@ -165,14 +165,12 @@ export default function ManageTransactionsActions(prop) {
                 <ApproveAuth open={authOpen} handleClose={() => {
                     handleAuthClose();
                     handleMsgClickOpen("success", "Transaction approval complete");
-                    // return (
-                        // <Message open ={msgOpen} handleClose ={handleMsgClose} severity ={severity} message ={"auth success"}/>
-                    // )
+
                 } }/>
                 <RejectDialog open={rejOpen} handleClose={() => {
                     handleRejClose();
                     handleMsgClickOpen("warning","transaction Rejected");
-                    // <Message open ={msgOpen} handleClose ={handleMsgClose} severity ={severity} message ={"Rejected"}/>
+
 
                 } }/>
                 <DeleteConfirm open={delOpen} handleClose={() => {
