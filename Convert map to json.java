@@ -1,10 +1,7 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,14 +46,11 @@ public class MapStringToJsonConverter {
     }
 
     private static List<String> parseArrayValue(String arrayString) {
-        // Use regular expression to extract array values
         List<String> arrayValues = new ArrayList<>();
         Matcher matcher = Pattern.compile("\\[([^\\]]+)\\]").matcher(arrayString);
         while (matcher.find()) {
-            String[] values = matcher.group(1).split(",\\s*");
-            for (String value : values) {
-                arrayValues.add(value.trim());
-            }
+            String[] values = matcher.group(1).split("\\s*,\\s*");
+            arrayValues.addAll(Arrays.asList(values));
         }
         return arrayValues;
     }
