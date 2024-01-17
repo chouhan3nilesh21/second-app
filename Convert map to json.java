@@ -1,7 +1,10 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MapStringToJsonConverter {
 
@@ -32,7 +35,7 @@ public class MapStringToJsonConverter {
 
                 // Check if the value is an array
                 if (value.startsWith("[") && value.endsWith("]")) {
-                    List<String> arrayValues = Arrays.asList(value.substring(1, value.length() - 1).split(","));
+                    List<String> arrayValues = parseArrayValue(value);
                     map.put(key, arrayValues);
                 } else {
                     map.put(key, value);
@@ -41,6 +44,22 @@ public class MapStringToJsonConverter {
         }
 
         return map;
+    }
+
+    private static List<String> parseArrayValue(String arrayString) {
+        // Use Jackson ObjectMapper to parse array values
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(arrayString);
+            List<String> arrayValues = new ArrayList<>();
+            for (JsonNode element : jsonNode) {
+                arrayValues.add(element.asText());
+            }
+            return arrayValues;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList(); // Return an empty list in case of an error
+        }
     }
 
     private static String convertMapToJson(Map<String, Object> map) {
